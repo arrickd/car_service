@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<html>
+
+    <head>
+        <style>
+            #mainDiv {
+                border: solid, white;
+                padding: 95px;
+                background-image: url("/images/road.png")
+               
+                /*background-image:url("https://www.planwallpaper.com/static/images/198690-texture.jpg")*/
+            }
+
+            .loginButt {
+                background-color: black;
+                color:white;
+                border:none;
+            }
+            .loginButt:hover {
+                box-shadow: 0px 0px 10px 1px;
+                position: relative;
+                top: 1px;
+            }
+            .bButt {
+                background-color: none;
+                padding: 5px;
+                border: white solid 1px;
+                color: white;
+
+            }
+             .bButt:hover{
+                    opacity: 0.5;
+                    color:white;
+                    position: relative;
+                    top: 1px;
+                }
+
+            h1.a {
+                text-shadow: 2px 2px 2px #8C8C8C;
+            }
+            a,a:hover {
+                text-decoration:none;
+            }
+            .box{
+                border:none;
+                padding:2px;
+            }
+
+        </style>   
+
+        <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
+    </head>    
+    
+    <body style="background-color:#000000">
+        <br>
+        <br>
+
+
+        <div id ="mainDiv" align="center" >
+                <h1 class="a" style="color:white; font-family: 'Berkshire Swash', cursive; ">Login to book your Service Appointment</h1>
+                <br>
+                        <!--,FormMethod.Post (might need to add as parameter below)-->
+                        @using( Html.BeginForm("LoggedIn","Login")) 
+                        {
+                            
+                            <input class="box" name ="Login" type="text" placeholder="username">
+                            <input class="box" name ="Password" type="password" placeholder="password">
+                            <input class="loginButt" type="submit" value="Login" />
+
+                        }  
+            
+ 
+                    <br>
+                    <div style=" text-decoration:none; display:inline-block; padding:3px;">
+                        @Html.ActionLink("New Customer Registration", "RegisterForm", "Registration", null, new { @class = "bButt" })
+                    </div>
+                    <br>
+                    <br>
+
+                    <div style="text-decoration:none; display:inline-block; padding:3px;">
+                        @Html.ActionLink("Employee Login", "login", "Employee", null, new { @class = "bButt" })
+                    </div>
+                    <br>
+                    <br>
+
+                <!--<div style="background-color:white; height:125px; width:245px; padding-top:3px;" >
+                    <iframe style="pointer-events: none;" align="center" src="https://giphy.com/embed/l41YsTNcmT2iaGevS" 
+                            width="240" height="120" frameBorder="0" class="giphy-embed">
+                    
+                    </iframe>
+                </div>-->
+        </div>
+
+    </body>
+</html>    

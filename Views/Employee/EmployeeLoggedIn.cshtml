@@ -1,0 +1,232 @@
+﻿@model Project3_Arrick_WebApp.Models.Employee
+
+@{
+ViewData["Title"] = "Employee Logged In";
+
+}
+
+<head>
+    <link rel="stylesheet" type="text/css" href='@Url.Content("~/css/login_styles.css")'/>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        
+        /* The Close Button */
+        .close, .close1 {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        td, th {
+            border: 2px solid white;
+            padding: 3px;
+        }
+
+        .editButton,.buttonReq {
+            background-color: black;
+            color: white;
+            border: none;
+        }
+        .editButton:hover, .buttonReq:hover {
+            box-shadow: 0px 0px 10px 5px;
+            position: relative;
+            top: 1px;
+        }
+
+    </style>
+</head>
+
+<br />
+<div style="padding:10px; background-color:lightgrey">
+   Employee Logged in. Simulates Employee control of multiple client requests.
+</div>
+
+<div class="mainContent" style="background-color:#DFF4F4; padding:10px; margin-top:0px; overflow:hidden">
+<div style="float:left">    
+<h3>Client List</h3>
+
+  @{
+
+      int count = 0;
+    <table>
+        <tr>
+            <td>Client</td>
+            <td>ID</td>
+
+        </tr>
+
+        @foreach (var c in Model.cList)
+			 {
+
+            <tr>
+                <td>
+                    @c.FName @c.LName
+                </td>
+                <td>
+                    @c.ID
+                </td>
+                <td>
+                    <button class="editButton" onclick="openPop(@count)">Edit Request</button>
+                </td>
+            </tr>
+            count++;
+        }
+
+   </table>
+      count = 0;
+}
+
+@{
+    int rCount=0;
+    foreach (var c in Model.cList)
+    {
+        <div class="modal">
+            <div class="modal-content" style="background-color:lightgrey">
+                <button align="right" class="close" onclick="closePop(@count)">X</button>
+
+                    <h3>Requests for Cutomer @c.FName @c.LName</h3>
+                    <h4>Customer ID: @c.ID</h4>
+
+                    @{
+
+                        foreach(var r in c.Requests)
+                        {
+                            
+                           <button class="buttonReq" onclick="showServices(@rCount)">Request for VID: @r.VID</button>
+                           <br><br>
+
+                               <div class="requestDiv" style="display: none;
+                                                                border: 1px solid black;
+                                                                padding: 5px;
+                                                                margin-bottom: 10px; background-color:#DFF4F4;">
+                                   
+                                   <button style="padding:2px; color:black !important; font-size:12px;" align="right" class="close" onclick="closeServices(@rCount)">close</button>
+                                   <p>Services for Request on VID: @r.VID</p>
+
+                                   <table>
+                                       <tr> <td>Type</td> <td>Employee Assigned</td> <td>Price for Service</td> </tr>
+                                       @{
+                                       foreach (var s in r.ManageServices)
+                                       {
+                                           <tr>
+                                               <td>@s.ServiceType</td>
+                                               <td>@s.AssignedEmployeeID</td>
+                                               <td>@s.Price</td>
+                                           </tr>
+                                       }
+                                       <tr>
+                                           <td></td>
+                                           <td></td>
+                                           <td>Total:</td>
+                                           <td>@r.total()</td>
+                                       </tr>
+
+                                       }
+                                   </table>
+                                   <br>
+                                   <h4> Notes from customer:</h4>
+                                   @r.Notes
+                                   <br><br>
+
+                                   <h4> Edit Service Status:</h4>
+                                 @using( Html.BeginForm("Submit","Employee",FormMethod.Post))
+                                 {
+                                     string checkBox="";
+
+                                     foreach (var s in r.ManageServices)
+                                     {
+                                         checkBox = "";
+                                         if (s.Complete) { checkBox = "checked"; }
+
+                                        <nobr>@s.ServiceType Complete?</nobr>
+                                        <input id ="@s.ServiceType" name ="@s.ServiceType" type="checkbox" value="true" @checkBox>
+                                        <input type="hidden" value="false" name="@s.ServiceType">
+                                        <br>
+  
+
+                                    }
+                                        <br>
+                                        <nobr>Update notes for the customer:</nobr>
+                                        <br>
+                                        <textarea style="width:100%; height:50px" id ="ServiceNotes" name ="ServiceNotes" type="text">@r.ServiceNotes</textarea>
+                                        <!-- 
+                                            <input style="width:100%; height:50px" id ="ServiceNotes" name ="ServiceNotes" type="text">
+                                        -->
+                                        <br>
+                                        <input type="hidden" id ="vid" name="vid" value="@r.VID" />
+                                        <br>
+                                        <input class=editButton type="submit" value="Submit Updates" />
+
+                                  }
+                               </div>  
+                               rCount++;                     
+                        }
+                    }
+                
+            </div>
+        </div>
+        count++;
+    }
+}
+
+</div> 
+    <div class="helpText" style="display:inline-block;padding:30px">
+        <img style="display: block;margin-left: auto; margin-right: auto; margin:100px" src="/images/logo.png" width="200px" />
+    </div>
+</div>    
+
+<script>
+
+    function openPop(count) {
+            document.getElementsByClassName("modal")[count].style.display = "block";
+    }
+
+    function closePop(count) {
+            document.getElementsByClassName("modal")[count].style.display = "none";
+    }
+
+    function showServices(count){
+        document.getElementsByClassName("requestDiv")[count].style.display = "block";
+    }
+
+    function closeServices(count){
+        document.getElementsByClassName("requestDiv")[count].style.display = "none";
+    }
+
+</script>

@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewData["Title"] = "Register Form";
+
+}
+
+<head>
+
+    <style>
+        .container1, .helpText, .register {
+            background-color: #DFF4F4;
+        }
+        .container1 {
+            padding:10px;
+        }
+        .text,.button {
+            border:none;
+        }
+        .button {
+            background-color: black;
+            color: white;
+            border: none;
+        }
+        .button:hover {
+            box-shadow: 0px 0px 10px 5px;
+            position: relative;
+            top: 1px;
+        }
+
+
+     </style>
+</head>
+
+<br><br>
+<div class="container1" style="overflow:hidden;">
+    <div class="register" style="float:left;">
+        @using( Html.BeginForm("Register","Registration",FormMethod.Post))
+        {
+
+            <input class="text" name ="FName" type="text" placeholder="First Name" required="required">
+            <br><br>
+            <input class="text" name ="LName" type="text" placeholder="Last Name" required="required">
+            <br><br>
+            <input class="text" name ="Address" type="text" placeholder="Address" required="required">
+            <br><br>
+            <input class="text" name ="Number" type="text" placeholder="Phone Number" required="required">
+            <br><br>
+            <input class="text" name ="Login" type="text" placeholder="User" required="required">
+            <nbr style="color:red;">@ViewData["uesrTaken"]</nbr>
+            <br>
+            <br>
+            <input class="text" name ="Password" type="password" placeholder="Password" required="required">
+            <br><br>
+            <input class="button" type="submit" value="Submit Registration" />
+
+        } 
+    </div>
+    <div class="helpText" style="display:inline-block;padding:30px">
+        *Please fill out all fields and pick a user/password combination that you will remember!
+
+        <img style="display: block;margin-left: auto; margin-right: auto; margin-top:50px" src="/images/logo.png" width="200px" />
+    </div>
+</div>
+
+<script>
+   // document.getElementsByClassName('register')[0].style.visibility = 'hidden';
+</script>
